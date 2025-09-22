@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT-based Authentication</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="no-class"></div>
+    <div id="user-data" class="text-container" style="display: none;">
+        <!-- <div style="padding: 10px;">User Information:</div>
+        <div id="information" style="padding: 10px; color: red;"></div> -->
+        <!-- <h1 style="padding: 10px; border-radius: 10px;">User:</h1> -->
+        <h1 id="information"></h1>
+        <h1 id="information2"></h1>
+    </div>
+    
+    <div id="signup-form" class="container">
+        <h1>SIGNUP</h1>
+        <input id="username1" type="text" name="username" placeholder="username">
+        <input id="password1" type="password" name="password" placeholder="password">
+        <button class="btn" onclick="signup()">Sign Up</button>
+        <p style=" padding: 10px; color: #D3DAD9; background-color: #37353E;">
+            Already signed up? <a style="background-color: #37353E;" href="#" onclick="toogleforms()">Signin</a>
+        </p>
+    </div>
+    
+    <div id="signin-form" class="container" style="display: none;">
+        <h1>LOGIN</h1>
+        <input id="username2" type="text" name="username" placeholder="username">
+        <input id="password2" type="password" name="password" placeholder="password">
+        <button class="btn" onclick="signin()">Sign In</button>
+        <p style=" padding: 10px; color: #D3DAD9; background-color: #37353E;">
+            Don't have an account? <a style="background-color: #37353E;" href="#" onclick="toogleforms()">Signup</a>
+        </p>
+    </div>
+
+    <div id="logout-btn" style="display: none; justify-content: center;">
+        <button class="out-btn" onclick="logout()">LOGOUT</button>
+    </div>
+
+    <div id="input-taker" style="display: none;">
+        <h1 style="font-size: 50px; padding: 20px; letter-spacing: 2px; font-weight: 5000;">Todo List 📝</h1>
+        <div style="background-color: transparent; width: 100%;">
+            <input id="todo-adder" type="text" placeholder="New Task">
+            <input class="todo-btn" type="button" value="Add Task" onclick="addTodo()">
+        </div>
+    </div>
+
+    <div id="todos-container" style="display: none;">
+        <div class="task-container completed">
+            <div class="taskbox">
+                <input type="checkbox" class="myCheckbox" onclick="marker()">
+                <div class="task completed">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </div>
+                <div class="btns-keeper">
+                    <input type="button" class="del-btn" value="delete" onclick="deleteTodo()">
+                    <input type="button" class="edit-btn" value="edit" onclick="toogleEdit()">
+                </div>
+            </div>
+
+            <div id="edit-items-container" class="edit-buttons">
+                <input id="new-task" type="text" placeholder="new task">
+                <input type="button" class="save-btn" value="save" onclick="editTodo()">
+                <input type="button" class="cancel-btn" value="cancel" onclick="toogleEdit()">
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+    <script src="axios.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

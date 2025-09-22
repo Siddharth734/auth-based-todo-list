@@ -1,0 +1,309 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* background-color: #111; */
+  /* background-image: url(https://i.pinimg.com/736x/00/15/06/001506c53199495488b7445405ef5f60.jpg); */
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(135deg, #000000, #434343);
+}
+
+h1{
+  color: #D3DAD9;
+  background-color: #37353E;
+}
+
+/* h1{
+  font-size: 50px;
+  font-weight: 900;
+  background-image: url(https://cdn.pixabay.com/photo/2024/03/26/11/57/security-8656665_1280.jpg);
+  background-size: cover;
+  background-position: center;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+} */
+
+input{
+  background-color: #44444E;
+  color: #D3DAD9;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 2px;
+  border:none;
+}
+
+.btn{
+  padding: 10px;
+  border-radius: 10px;
+  background-color: lime;
+  border:none;
+}
+
+.btn:hover{
+  /* background-color: rgba(0, 255, 0, 0.856); */
+  transform: translateY(-2px);
+  box-shadow: 1px 1px 2px lime, 1px 1px 6px lime, 1px 1px 10px lime;
+  cursor: pointer;
+}
+
+.out-btn{
+  padding: 10px;
+  border-radius: 10px;
+  background-color: red;
+  border:none;
+  /* color: transparent; */
+  position: absolute;
+  top: 4%;
+  left: 1%;
+  width: 5%;
+}
+
+.out-btn:hover{
+  /* background-color: rgba(255, 0, 0, 0.807); */
+  transform: translateY(-2px);
+  box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.904), 1px 1px 6px rgba(255, 0, 0, 0.904), 1px 1px 10px rgba(255, 0, 0, 0.904);
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #37353E;
+  margin: 20px;
+  margin-top: 10%;
+  padding: 20px;
+  border-radius: 10px;
+  width: 30%;
+}
+
+/* .user-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #37353E;
+  margin: 20px;
+  border-radius: 10px;
+
+} */
+
+#information{
+  font-size: 34px;
+  font-weight: 900;
+  padding: 5px;
+  background-image: url(
+    https://media.istockphoto.com/id/1305666434/photo/storm-clouds-background.jpg?s=2048x2048&w=is&k=20&c=oMzEEYSwI8xJ1I_1zJPCJDs4X7wXYCgwFo1TCFICHJ4=
+    );
+  background-size: cover;
+  background-position: center;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 1px 1px 100px white, 1px 1px 150px black;
+  position: absolute;
+  transform: translate(-5%, 120%);
+  filter: blur(8px) saturate(1);
+  top: -5%;
+  right: 1%;
+  letter-spacing: 3px;
+  width: fit-content;
+}
+
+#information2{
+  font-size: 30px;
+  font-weight: 900;
+  padding: 5px;
+  background-image: url(
+    https://media.istockphoto.com/id/1305666434/photo/storm-clouds-background.jpg?s=2048x2048&w=is&k=20&c=oMzEEYSwI8xJ1I_1zJPCJDs4X7wXYCgwFo1TCFICHJ4=
+    );
+  background-size: cover;
+  background-position: center;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  position: absolute;
+  transform: translate(-5%, 120%);
+  top: -5%;
+  right: 1%;
+  letter-spacing: 5px;
+  border-radius: 5px;
+  border: 2px solid white;
+  width: fit-content;
+}
+
+#input-taker{
+  padding: 30px;
+  margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #37353E;
+  width: 50%;
+  border: 3px double gold;
+}
+
+#todos-container{
+  padding: 30px;
+  margin-top: 1%;
+  margin-bottom: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #37353E;
+  width: 50%;
+}
+
+.task{
+  padding: 10px;
+  margin: 10px;
+  font-size: 20px;
+  color: #fff;
+  display: flex;
+  border-radius: 10px;
+  background-color: rgb(98, 95, 95);
+  flex: 1;
+}
+.task:hover{
+  /* background-color: #4B484D; */
+  cursor: pointer;
+}
+.task.completed{
+  background-color: rgb(12, 161, 7);
+  color: #ffffffba;
+  text-decoration-line: line-through;
+}
+
+.btns-keeper{
+  display: flex;
+  background-color: transparent;
+}
+
+.task-container{
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: #4B484D;
+  width: 100%;
+  margin: 10px;
+  display: flex;
+}
+.task-container:hover{
+  box-shadow: 1px 1px 30px gray;
+  background-color: #37353E;
+}
+.task-container.completed{
+  background-color: rgba(12, 161, 7, 0.834);
+  color: #ffffffba;
+}
+.task-container.completed:hover{
+  border: 1px 1px 30px lime;
+  background-color: rgb(12, 161, 7);
+  cursor: pointer;
+}
+
+.taskbox{
+  display: flex;
+  background-color: transparent;
+}
+
+.myCheckbox{
+  background-color: #37353E;
+  cursor: pointer;
+}
+
+#todo-adder{
+  width: 80%;
+}
+
+.todo-btn{
+  border-radius: 5px;
+  font-weight: 1000;
+  background-color: rgb(255, 213, 0);
+}
+
+.todo-btn:hover{
+  background-color: rgb(255, 180, 0);
+  cursor: pointer;
+}
+
+.del-btn{
+  background-color: red;
+  font-weight: 700;
+  border-radius: 5px;
+}
+.del-btn:hover{
+  background-color: rgba(255, 0, 0, 0.658);
+}
+
+.edit-btn{
+  background-color: rgb(137, 4, 220);
+  font-weight: 700;
+  border-radius: 5px;
+  padding: 10px;
+}
+.edit-btn:hover{
+  background-color: rgb(79, 0, 128);
+}
+
+.edit-buttons{
+  background-color: rgba(255, 255, 255, 0.664);
+  border-radius: 10px;
+}
+
+#new-task{
+  background-color: grey;
+}
+#new-task::placeholder{
+  color: #fff;
+}
+
+.save-btn{
+  background-color: #fff;
+  color: #111;
+  font-weight: 600;
+  padding: 5px;
+  border: 2px solid #111;
+}
+.save-btn:hover{
+  opacity: 70%;
+  border: 2px dashed #111;
+}
+
+.cancel-btn{
+  background-color: #fff;
+  color: #111;
+  font-weight: 600;
+  padding: 5px;
+  border: 2px solid #111;
+}
+.cancel-btn:hover{
+  opacity: 70%;
+  border: 2px dashed #111;
+}
+
+/* #information{
+  background-image: url(https://ik.imagekit.io/sheryians/Aptitude%20&%20Reasoning/bloomMask%20Large_lvwFbM14_l.png);
+  font-size: 50px;
+  text-transform: capitalize;
+  
+} */
+
+/* #information:hover{
+} */
+
+a:hover{
+  color: rgba(0, 255, 255, 0.384);
+}
