@@ -7,9 +7,11 @@ window.onload = () => {
 async function signup() {
     try {
         const usernameInput = document.getElementById("username1");
+        const emailInput = document.getElementById("email1");
         const passwordInput = document.getElementById("password1");
-        const response = await axios.post("http://localhost:3006/signup", {
+        const response = await axios.post("http://localhost:3007/signup", {
             username: usernameInput.value,
+            email: emailInput.value,
             password: passwordInput.value
         });
 
@@ -21,6 +23,7 @@ async function signup() {
 
         //clearing Input fields
         usernameInput.value = "";
+        emailInput.value = "";
         passwordInput.value = "";
     } catch (error) {
         console.error("Signup failed:", error.response ? error.response.data : error.message);
@@ -31,7 +34,7 @@ async function signin() {
     try {
         const usernameInput = document.getElementById("username2");
         const passwordInput = document.getElementById("password2");
-        const response = await axios.post("http://localhost:3006/signin", {
+        const response = await axios.post("http://localhost:3007/signin", {
             username: usernameInput.value,
             password: passwordInput.value
         });
@@ -65,7 +68,7 @@ async function signin() {
 
 async function userInfo() {
     const token = localStorage.getItem("token");
-    const response = await axios.get("http://localhost:3006/me",{
+    const response = await axios.get("http://localhost:3007/me",{
         headers: {
             Authorization: token
         }
@@ -145,7 +148,7 @@ async function addTodo() {
             alert("task input empty");
             return;
         }
-        const response = await axios.post("http://localhost:3006/todos",{
+        const response = await axios.post("http://localhost:3007/todos",{
             "task": task.value},{
                 headers:{
                     Authorization: token
@@ -163,7 +166,7 @@ async function addTodo() {
 async function loadTodos() {
     const token = localStorage.getItem("token");
 
-    const response = await axios.get("http://localhost:3006/todos",{
+    const response = await axios.get("http://localhost:3007/todos",{
         headers: {
             Authorization: token
         }
@@ -259,7 +262,7 @@ async function loadTodos() {
 
 async function deleteTodo(index) {
     try {
-        const response = await axios.delete("http://localhost:3006/todos",{
+        const response = await axios.delete("http://localhost:3007/todos",{
                 data:{
                     "id":index
                 },
@@ -296,7 +299,7 @@ async function editTodo(index) {
     }
 
     try{
-        const response = await axios.put("http://localhost:3006/todos",{
+        const response = await axios.put("http://localhost:3007/todos",{
             "task": newTask.value,
             "update": new Date().toISOString(),
             "id": index},{
@@ -318,7 +321,7 @@ async function editTodo(index) {
 
 async function marker(index) {
     try {
-        const response = await axios.patch("http://localhost:3006/todos",{
+        const response = await axios.patch("http://localhost:3007/todos",{
             "id": index
             },{
             headers:{

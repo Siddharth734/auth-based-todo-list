@@ -3,9 +3,12 @@ const fs = require('fs').promises;
 const path = require('path')
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const { UserModel, TaskModel } = require("./db");
+
+
 const app = express();
 const JWT_SECRET = process.env.JWT_SECRET;
-const PORT = process.env.PORT || 3006;
+const PORT = process.env.PORT || 3007;
 
 function auth(req,res,next) {
     const token = req.headers.authorization;
@@ -69,6 +72,7 @@ app.get('/', (req, res) => {
 
 app.post('/signup', async (req, res) => {
     const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
     const users = await readData();
 
@@ -81,6 +85,7 @@ app.post('/signup', async (req, res) => {
 
     users.push({
         username: username,
+        email: email,
         password: password,
         tasks: []
     })

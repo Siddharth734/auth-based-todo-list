@@ -2,23 +2,28 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* background-color: #111; */
+  background-color: #37353E;
   /* background-image: url(https://i.pinimg.com/736x/00/15/06/001506c53199495488b7445405ef5f60.jpg); */
 }
 
 body{
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
-    background: linear-gradient(135deg, #000000, #434343);
+    /* background: linear-gradient(135deg, #000000, #434343); */
+    background: url(https://i.pinimg.com/1200x/b0/fb/bd/b0fbbd7e126893cecbd55c95fcbea0c9.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 h1{
   color: #D3DAD9;
-  background-color: #37353E;
+  background-color: transparent;
 }
 
 /* h1{
@@ -78,9 +83,11 @@ input{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #37353E;
+  /* background-color: #37353E; */
+  background-color: rgb(255 255 255 / 10%);
+  backdrop-filter: blur(8px);
   margin: 20px;
-  margin-top: 10%;
+  margin-top: 4%;
   padding: 20px;
   border-radius: 10px;
   width: 30%;
@@ -101,14 +108,14 @@ input{
   font-weight: 900;
   padding: 5px;
   background-image: url(
-    https://media.istockphoto.com/id/1305666434/photo/storm-clouds-background.jpg?s=2048x2048&w=is&k=20&c=oMzEEYSwI8xJ1I_1zJPCJDs4X7wXYCgwFo1TCFICHJ4=
+    https://i.pinimg.com/1200x/0e/44/4e/0e444ec6d41029d8309b1434002b36c2.jpg
     );
   background-size: cover;
   background-position: center;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  text-shadow: 1px 1px 100px white, 1px 1px 150px black;
+  /* text-shadow: 1px 1px 100px black, 1px 1px 150px black; */
   position: absolute;
   transform: translate(-5%, 120%);
   filter: blur(8px) saturate(1);
@@ -123,13 +130,15 @@ input{
   font-weight: 900;
   padding: 5px;
   background-image: url(
-    https://media.istockphoto.com/id/1305666434/photo/storm-clouds-background.jpg?s=2048x2048&w=is&k=20&c=oMzEEYSwI8xJ1I_1zJPCJDs4X7wXYCgwFo1TCFICHJ4=
+    https://i.pinimg.com/1200x/0e/44/4e/0e444ec6d41029d8309b1434002b36c2.jpg
     );
   background-size: cover;
   background-position: center;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+  /* text-shadow: 1px 1px 2px black; */
+  box-shadow: 1px 1px 10px red;
   position: absolute;
   transform: translate(-5%, 120%);
   top: -5%;
@@ -149,8 +158,12 @@ input{
   align-items: center;
   border-radius: 10px;
   background-color: #37353E;
+  opacity: 90%;
+  background-color: rgb(255 255 255 / 10%);
+  backdrop-filter: blur(10px);
   width: 50%;
-  border: 3px double gold;
+  border: 5px solid black;
+  box-shadow: 1px 1px 10px white;
 }
 
 #todos-container{
@@ -162,7 +175,9 @@ input{
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  background-color: #37353E;
+  /* background-color: #37353E; */
+  background-color: rgb(255 255 255 / 10%);
+  backdrop-filter: blur(8px);
   width: 50%;
 }
 
