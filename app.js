@@ -1,148 +1,123 @@
 const express = require('express');
 const fs = require('fs').promises;
-const path = require('path')
+const path = require('path');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 const { UserModel, TaskModel } = require("./db");
+const { auth, JWT_SECRET } = require("./auth");
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-
+const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
 const app = express();
-const JWT_SECRET = process.env.JWT_SECRET;
 const PORT = process.env.PORT || 3007;
 
-function auth(req,res,next) {
-    const token = req.headers.authorization;
-
-    if(token){
-        jwt.verify(token,JWT_SECRET,(err,decoded) => {
-            if(err){
-                res.status(401).send({
-                    message: "Unauthorized User"
-                })
-            }else{
-                req.user = decoded;
-                next();
-            }
-        })
-
-    }else{
-        res.status(401).send({
-            message: "Invalid User"
-        })
+async function startServer() {
+    try {
+        await mongoose.connect(process.env.Mongo_Connector);
+        app.listen(PORT, () => {
+            console.log(`Starting server on: http://localhost:${PORT}`);
+        });
+    } catch (error) {
+        console.log(`Error occured while trying to start the server: ${error}`);
     }
 }
-//verifies if a user is logged in and ends the request early if the user isn’t logged in
 
 app.use(express.json());
 app.use(express.static('public')); // to run files like js and css
-
-// const users = [];
-
-async function readData() {
-    try{
-        const data = await fs.readFile('data.json', 'utf-8');
-        const parsedData = JSON.parse(data);
-        return Array.isArray(parsedData)?parsedData:[];
-    }catch(err){
-        return [];
-    }
-}
-
-async function writeData(myData) {
-    try{
-        await fs.writeFile('data.json',JSON.stringify(myData, null, 2));
-    }catch(err){
-        console.log(`Error saving data to the file: ${err}`);
-    }
-}
-
-function newidGenerator(user){
-    if(user.tasks.length>0){
-        let index = user.tasks[user.tasks.length-1];
-        index = index.id.split("t");
-        return `t${parseInt(index[1])+1}`;
-    }else{
-        return 't1';
-    }
-}
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 })
 
 app.post('/signup', async (req, res) => {
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
-    const users = await readData();
-
-    if(users.find(u => u.username === username)){
-        res.json({
-            message: "You are already signed up"
+    try {
+        const username = req.body.username;
+        const email = req.body.email;
+        const password = req.body.password;
+        
+        await UserModel.create({
+            username: username,
+            email: email,
+            password: password
         })
-        return;
+        console.log(UserModel);
+    
+        res.json({
+            message: "You are signed up now"
+        })
+    } catch (error) {
+        res.json({
+            message: `error signing up: ${error}`
+        })
     }
-
-    users.push({
-        username: username,
-        email: email,
-        password: password,
-        tasks: []
-    })
-    console.log(users);
-
-    await writeData(users);
-
-    res.json({
-        message: "You are signed up now"
-    })
-})
+});
 
 app.post('/signin', async (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    const users = await readData();
-
-    const user = users.find(u => u.username === username && u.password === password)
-
-    if(user){
-        const token = jwt.sign({
-            username: username
-        }, JWT_SECRET);
-
-        res.json({
-            token: token
-        })
-    }else{
-        res.status(403).send({
-            message: "Invalid User!"
-        })
+    try {
+        const username = req.body.username;
+        const password = req.body.password;
+    
+        const user = await UserModel.findOne({
+            username: username,
+            password: password
+        });
+    
+        if(user){
+            const token = jwt.sign({
+                id: user._id.toString()
+            },JWT_SECRET);
+    
+            res.json({
+                token: token
+            });
+        }else{
+            res.json({
+                message: "Invalid User"
+            })
+        }
+    } catch (error) {
+        res.status(403).json({
+            message: `Error occured while trying to login: ${error}`
+        });
     }
-})
+});
 
-app.get('/me', auth, (req, res) => {
-    const user = req.user;
-
-    res.json({
-        username: user.username
-    })
+app.get('/me', auth, async (req, res) => {
+    try {
+        const id = req.id;
+    
+        const user = await UserModel.findOne({
+            _id: id
+        });
+    
+        if(user){
+            res.json({
+                username: user.username
+            })
+        }else{
+            res.json({
+                message: "Invalid User id, user not found"
+            })
+        }
+        
+    } catch (error) {
+        res.status(403).json({
+            message: `Error occured while trying to fetch user details: ${error}`
+        });
+    }
 });
 
 app.post('/todos',auth, async (req,res) =>{
     try{
-        const user = req.user;
+        const id = req.id;
         const newTask = req.body.task;
-        const users = await readData();
-        const findUser = users.find(u => u.username === user.username)
 
-        findUser.tasks.push({
+        await TaskModel.create({
             title: newTask,
-            id: newidGenerator(findUser),
             completed: false,
-            createdOn: new Date().toISOString()
+            userId: id
         })
-
-        await writeData(users)
 
         res.json({
             message: "task was sucessfully added"
@@ -156,12 +131,15 @@ app.post('/todos',auth, async (req,res) =>{
 
 app.get('/todos',auth, async (req,res) =>{
     try{
-        const user = req.user;
-        const users = await readData();
-        const findUser = users.find(u => u.username === user.username)
-    
+        const id = req.id;
+
+        //findOne({}) returns Single document object or null, whereas
+        // find({}) return Returns: Array of documents (even if empty or has one item)
+        const tasks = await TaskModel.find({
+            userId: id
+        });
         res.json({
-            tasks: findUser.tasks
+            tasks: tasks
         })
     }catch(error){
         res.json({
@@ -172,24 +150,23 @@ app.get('/todos',auth, async (req,res) =>{
 
 app.delete('/todos',auth, async (req,res) =>{
     try {
-        const user = req.user;
-        const users = await readData();
-        const index = req.body.id;
+        const userId = req.id;
+        const taskId = req.body.id;
 
-        if(!index){ 
+        if(!taskId){ 
             res.json({
                 message: "Task is is required"
             })
             return;
         }
 
-        const findUser = users.find(u => u.username === user.username);
-        findUser.tasks = findUser.tasks.filter(f => f.id != index);
-
-        await writeData(users);
+        await TaskModel.deleteOne({
+            _id: taskId,
+            userId: userId
+        });
         
         res.json({
-            message: `task at ${index} was deleted for user: ${findUser.username}`
+            message: `task at was deleted`
         })
     } catch (error) {
         res.json({
@@ -201,29 +178,30 @@ app.delete('/todos',auth, async (req,res) =>{
 app.put('/todos',auth, async (req,res) =>{
     
     try {
-        const user = req.user;
-        const users = await readData();
+        const userId = req.id;
         const newTask = req.body.task;
-        const update = req.body.update;
-        const index = req.body.id;
+        const taskId = req.body.id;
     
-        if(!index){
+        if(!taskId){
             res.json({
                 message: "id is required"
             })
             return;
         }
     
-        const findUser = users.find(u => u.username === user.username);
-    
-        findUser.tasks.forEach(t => {
-            if(t.id === index){
-                t.title = newTask;
-                t.updatedOn = update;
-            }
-        });
+        // const task = await TaskModel.find({
+        //     _id: taskId,
+        //     userId: userId
+        // });
 
-        await writeData(users);
+        await TaskModel.updateOne({
+            _id: taskId },
+            {
+                $set: {
+                    title: newTask
+                }
+        });
+        //without $set it replaces whole doc, but with it it safely adds/updates it
 
         res.json({
             message:"task updated"
@@ -237,26 +215,27 @@ app.put('/todos',auth, async (req,res) =>{
 
 app.patch('/todos',auth, async (req,res) =>{
     try {
-        const user = req.user;
-        const users = await readData();
-        const index = req.body.id;
+        const userId = req.id;
+        const taskId = req.body.id;
 
-        if(!index){
+        if(!taskId){
             res.json({
                 message: "index is required"
             })
             return;
         }
 
-        const findUser = users.find(u => u.username === user.username)
-
-        findUser.tasks.forEach(t => {
-            if(t.id === index){
-                t.completed = !t.completed;
-            }
+        const task = await TaskModel.findOne({
+            _id: taskId,
+            userId: userId
         });
+        
+        const completed = task.completed?false:true
 
-        await writeData(users);
+        await TaskModel.updateOne(
+            {  _id: taskId },
+            { $set: { completed: completed } }
+        );
 
         res.json({
             message: "marked"
@@ -268,6 +247,4 @@ app.patch('/todos',auth, async (req,res) =>{
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on: http://localhost:${PORT}`);
-})
+startServer();

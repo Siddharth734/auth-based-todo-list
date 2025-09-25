@@ -16,7 +16,7 @@ async function signup() {
         });
 
         if(response.data.message === "You are already signed up"){
-            // alert("User already exists! Please sign in.")
+            alert("User already exists! Please sign in.")
         }else {
             alert("Signed up successful");
         }
@@ -194,7 +194,7 @@ async function loadTodos() {
         const input = document.createElement("input");
         input.setAttribute("type","checkbox");
         input.className = "myCheckbox";
-        input.setAttribute("onclick",`marker("${t.id}")`)
+        input.setAttribute("onclick",`marker("${t._id}")`)
         input.checked = t.completed;
 
         const div1 = document.createElement("div");
@@ -203,18 +203,18 @@ async function loadTodos() {
 
         const inputdelB = document.createElement("input");
         inputdelB.setAttribute("type","button");
-        inputdelB.setAttribute("onclick",`deleteTodo("${t.id}")`);
+        inputdelB.setAttribute("onclick",`deleteTodo("${t._id}")`);
         inputdelB.setAttribute("value","delete");
         inputdelB.className = "del-btn";
 
         const inputeditB = document.createElement("input");
         inputeditB.setAttribute("type","button");
-        inputeditB.setAttribute("onclick",`toogleEdit("${t.id}")`);
+        inputeditB.setAttribute("onclick",`toogleEdit("${t._id}")`);
         inputeditB.setAttribute("value","edit");
-        inputeditB.className = "edit-btn";
+        inputeditB.className = `edit-btn  ${t.completed?"completed":""}`;
 
         const btnKeeprDiv = document.createElement("div");
-        btnKeeprDiv.className = "btns-keeper";
+        btnKeeprDiv.className = `btns-keeper`;
         btnKeeprDiv.appendChild(inputdelB);
         btnKeeprDiv.appendChild(inputeditB);
 
@@ -225,7 +225,7 @@ async function loadTodos() {
         taskboxDiv.appendChild(btnKeeprDiv);
 
         const newTask = document.createElement("input");
-        newTask.id = `new-task-${t.id}`;
+        newTask.id = `new-task-${t._id}`;
         newTask.setAttribute("type","text");
         newTask.setAttribute("placeholder","new task")
         
@@ -233,16 +233,16 @@ async function loadTodos() {
         inpSaveB.className = "save-btn";
         inpSaveB.setAttribute("type","button");
         inpSaveB.setAttribute("value","save");
-        inpSaveB.setAttribute("onclick",`editTodo("${t.id}")`);
+        inpSaveB.setAttribute("onclick",`editTodo("${t._id}")`);
         
         const inpCancelB = document.createElement("input");
         inpCancelB.className = "cancel-btn";
         inpCancelB.setAttribute("type","button");
         inpCancelB.setAttribute("value","cancel");
-        inpCancelB.setAttribute("onclick",`toogleEdit("${t.id}")`);
+        inpCancelB.setAttribute("onclick",`toogleEdit("${t._id}")`);
         
         const editDiv = document.createElement("div");
-        editDiv.id = `edit-items-container${t.id}`;
+        editDiv.id = `edit-items-container${t._id}`;
         editDiv.style.display = 'none';
         editDiv.className = "edit-buttons";
         editDiv.appendChild(newTask);
@@ -301,7 +301,7 @@ async function editTodo(index) {
     try{
         const response = await axios.put("http://localhost:3007/todos",{
             "task": newTask.value,
-            "update": new Date().toISOString(),
+            // "update": new Date().toISOString(),
             "id": index},{
             headers:{
                 Authorization: localStorage.getItem("token")

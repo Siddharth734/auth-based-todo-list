@@ -9,6 +9,7 @@ data.json
 
 # Temporary files
 tempCodeRunnerFile.js
+auth.js
 
 # Logs
 *.log

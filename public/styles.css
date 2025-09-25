@@ -3,7 +3,8 @@
   padding: 0;
   box-sizing: border-box;
   background-color: #37353E;
-  /* background-image: url(https://i.pinimg.com/736x/00/15/06/001506c53199495488b7445405ef5f60.jpg); */
+  font-family: "Share Tech", sans-serif;
+  font-size: medium;
 }
 
 body{
@@ -14,8 +15,7 @@ body{
     align-items: center;
     height: 100%;
     width: 100%;
-    /* background: linear-gradient(135deg, #000000, #434343); */
-    background: url(https://i.pinimg.com/1200x/b0/fb/bd/b0fbbd7e126893cecbd55c95fcbea0c9.jpg);
+    background: linear-gradient(100deg, #000000, #434343);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -103,50 +103,50 @@ input{
 
 } */
 
-#information{
-  font-size: 34px;
+#information2{
+  /* font-size: 34px;
   font-weight: 900;
   padding: 5px;
   background-image: url(
-    https://i.pinimg.com/1200x/0e/44/4e/0e444ec6d41029d8309b1434002b36c2.jpg
+    https://i.pinimg.com/1200x/c8/fa/af/c8faaf527ec022862ce99e68395a8843.jpg
     );
   background-size: cover;
   background-position: center;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  /* text-shadow: 1px 1px 100px black, 1px 1px 150px black; */
+  text-shadow: 1px 1px 10px red, 1px 1px 30px red;
   position: absolute;
   transform: translate(-5%, 120%);
-  filter: blur(8px) saturate(1);
+  filter: blur(10px) saturate(1);
   top: -5%;
   right: 1%;
   letter-spacing: 3px;
-  width: fit-content;
+  width: fit-content; */
+  display: none
 }
 
-#information2{
-  font-size: 30px;
+#information{
+  font-size: 25px;
   font-weight: 900;
-  padding: 5px;
+  padding: 10px;
   background-image: url(
-    https://i.pinimg.com/1200x/0e/44/4e/0e444ec6d41029d8309b1434002b36c2.jpg
+    https://i.pinimg.com/1200x/c8/fa/af/c8faaf527ec022862ce99e68395a8843.jpg
     );
   background-size: cover;
   background-position: center;
   background-clip: text;
   -webkit-background-clip: text;
-  color: transparent;
-  /* text-shadow: 1px 1px 2px black; */
+  color: red;
   box-shadow: 1px 1px 10px red;
   position: absolute;
   transform: translate(-5%, 120%);
-  top: -5%;
+  top: -6%;
   right: 1%;
-  letter-spacing: 5px;
   border-radius: 5px;
   border: 2px solid white;
   width: fit-content;
+  font-family: "Bungee", sans-serif;
 }
 
 #input-taker{
@@ -162,9 +162,12 @@ input{
   background-color: rgb(255 255 255 / 10%);
   backdrop-filter: blur(10px);
   width: 50%;
-  border: 5px solid black;
-  box-shadow: 1px 1px 10px white;
+  border: 5px solid rgb(255 255 255 / 10%);
+  box-shadow: 1px 1px 100px red;
 }
+/* #input-taker:hover{
+  box-shadow: 1px 1px 100px red;
+} */
 
 #todos-container{
   padding: 30px;
@@ -185,6 +188,7 @@ input{
   padding: 10px;
   margin: 10px;
   font-size: 20px;
+  font-family: "Share Tech", sans-serif;
   color: #fff;
   display: flex;
   border-radius: 10px;
@@ -271,6 +275,9 @@ input{
 }
 .edit-btn:hover{
   background-color: rgb(79, 0, 128);
+}
+.edit-btn.completed{
+  display: none;
 }
 
 .edit-buttons{
