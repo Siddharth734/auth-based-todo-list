@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
@@ -6,6 +7,7 @@ const { UserModel, TaskModel } = require("./db");
 const { auth, JWT_SECRET } = require("./auth");
 const mongoose = require('mongoose');
 require('dotenv').config();
+const { z } = require('zod');
 
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
@@ -32,14 +34,50 @@ app.get('/', (req, res) => {
 
 app.post('/signup', async (req, res) => {
     try {
+        const requiredBody = z.object({
+            username: z.string().min(3).max(50),
+            email: z.string().min(3).max(50).email(),
+            password: z.string().min(6).max(30)
+            .refine(password => /[A-Z]/.test(password),
+            { message: "uppercaseErrorMessage"})
+            .refine(password => /[a-z]/.test(password),
+            { message: "lowercaseErrorMessage"})
+            .refine(password => /[!@#$%^&*]/.test(password),
+            { message: "specialCharacterErrorMessage"})
+        });
+
+        //.parse() throws and error whereas .safeParse() doesnot throw an error but returns an object everytime {success, data, error}
+        const {success, data, error} = requiredBody.safeParse(req.body);
+        
+        if(!success){
+            res.json({
+                message: "Incorrect format to enter credentials",
+                error: error
+            });
+            return;
+        }
+
         const username = req.body.username;
         const email = req.body.email;
         const password = req.body.password;
+
+        const user = await UserModel.find({
+            $or: [{ username: username }, { email: email }]
+        });
+
+        if(user){
+            res.json({
+                message: "You are already signed up"
+            })
+            return;
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 5);
         
         await UserModel.create({
             username: username,
             email: email,
-            password: password
+            password: hashedPassword
         })
         console.log(UserModel);
     
@@ -59,11 +97,19 @@ app.post('/signin', async (req, res) => {
         const password = req.body.password;
     
         const user = await UserModel.findOne({
-            username: username,
-            password: password
+            username: username
         });
+
+        if(!user){
+            res.status(403).json({
+                message: "User does not exist in the Database"
+            })
+            return;
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
     
-        if(user){
+        if(passwordMatch){
             const token = jwt.sign({
                 id: user._id.toString()
             },JWT_SECRET);
@@ -188,11 +234,6 @@ app.put('/todos',auth, async (req,res) =>{
             })
             return;
         }
-    
-        // const task = await TaskModel.find({
-        //     _id: taskId,
-        //     userId: userId
-        // });
 
         await TaskModel.updateOne({
             _id: taskId },
@@ -201,7 +242,7 @@ app.put('/todos',auth, async (req,res) =>{
                     title: newTask
                 }
         });
-        //without $set it replaces whole doc, but with it it safely adds/updates it
+        //without $set{} it replaces whole doc, but with it it safely adds/updates it
 
         res.json({
             message:"task updated"

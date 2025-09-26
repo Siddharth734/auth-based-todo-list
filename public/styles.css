@@ -26,17 +26,6 @@ h1{
   background-color: transparent;
 }
 
-/* h1{
-  font-size: 50px;
-  font-weight: 900;
-  background-image: url(https://cdn.pixabay.com/photo/2024/03/26/11/57/security-8656665_1280.jpg);
-  background-size: cover;
-  background-position: center;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-} */
-
 input{
   background-color: #44444E;
   color: #D3DAD9;
@@ -54,7 +43,6 @@ input{
 }
 
 .btn:hover{
-  /* background-color: rgba(0, 255, 0, 0.856); */
   transform: translateY(-2px);
   box-shadow: 1px 1px 2px lime, 1px 1px 6px lime, 1px 1px 10px lime;
   cursor: pointer;
@@ -65,7 +53,6 @@ input{
   border-radius: 10px;
   background-color: red;
   border:none;
-  /* color: transparent; */
   position: absolute;
   top: 4%;
   left: 1%;
@@ -73,7 +60,6 @@ input{
 }
 
 .out-btn:hover{
-  /* background-color: rgba(255, 0, 0, 0.807); */
   transform: translateY(-2px);
   box-shadow: 1px 1px 2px rgba(255, 0, 0, 0.904), 1px 1px 6px rgba(255, 0, 0, 0.904), 1px 1px 10px rgba(255, 0, 0, 0.904);
 }
@@ -93,39 +79,6 @@ input{
   width: 30%;
 }
 
-/* .user-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #37353E;
-  margin: 20px;
-  border-radius: 10px;
-
-} */
-
-#information2{
-  /* font-size: 34px;
-  font-weight: 900;
-  padding: 5px;
-  background-image: url(
-    https://i.pinimg.com/1200x/c8/fa/af/c8faaf527ec022862ce99e68395a8843.jpg
-    );
-  background-size: cover;
-  background-position: center;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  text-shadow: 1px 1px 10px red, 1px 1px 30px red;
-  position: absolute;
-  transform: translate(-5%, 120%);
-  filter: blur(10px) saturate(1);
-  top: -5%;
-  right: 1%;
-  letter-spacing: 3px;
-  width: fit-content; */
-  display: none
-}
-
 #information{
   font-size: 25px;
   font-weight: 900;
@@ -141,8 +94,8 @@ input{
   box-shadow: 1px 1px 10px red;
   position: absolute;
   transform: translate(-5%, 120%);
-  top: -6%;
-  right: 1%;
+  top: -7%;
+  right: 0%;
   border-radius: 5px;
   border: 2px solid white;
   width: fit-content;
@@ -165,9 +118,6 @@ input{
   border: 5px solid rgb(255 255 255 / 10%);
   box-shadow: 1px 1px 100px red;
 }
-/* #input-taker:hover{
-  box-shadow: 1px 1px 100px red;
-} */
 
 #todos-container{
   padding: 30px;
@@ -315,16 +265,6 @@ input{
   opacity: 70%;
   border: 2px dashed #111;
 }
-
-/* #information{
-  background-image: url(https://ik.imagekit.io/sheryians/Aptitude%20&%20Reasoning/bloomMask%20Large_lvwFbM14_l.png);
-  font-size: 50px;
-  text-transform: capitalize;
-  
-} */
-
-/* #information:hover{
-} */
 
 a:hover{
   color: rgba(0, 255, 255, 0.384);

@@ -9,16 +9,22 @@ async function signup() {
         const usernameInput = document.getElementById("username1");
         const emailInput = document.getElementById("email1");
         const passwordInput = document.getElementById("password1");
-        const response = await axios.post("http://localhost:3007/signup", {
-            username: usernameInput.value,
-            email: emailInput.value,
-            password: passwordInput.value
-        });
-
-        if(response.data.message === "You are already signed up"){
-            alert("User already exists! Please sign in.")
-        }else {
-            alert("Signed up successful");
+        if(usernameInput.value.trim() === "" || emailInput.value.trim() === "" || passwordInput.value.trim() === ""){
+            alert("Empty input detected");
+        }else{
+            const response = await axios.post("http://localhost:3007/signup", {
+                username: usernameInput.value,
+                email: emailInput.value,
+                password: passwordInput.value
+            });
+    
+            // if(response.data.message === "You are already signed up"){
+            //     alert("User already exists! Please sign in.")
+            // }else {
+            //     alert("Signed up successful");
+            // }
+            alert(`${response.data.message}`);
+            // console.log(`${response.data.error.issues.message}`);
         }
 
         //clearing Input fields
@@ -54,7 +60,6 @@ async function signin() {
              }
         }
 
-            //clearing Input fields
             usernameInput.value = "";
             passwordInput.value = "";
         } catch (error) {
@@ -67,15 +72,24 @@ async function signin() {
 }
 
 async function userInfo() {
-    const token = localStorage.getItem("token");
-    const response = await axios.get("http://localhost:3007/me",{
-        headers: {
-            Authorization: token
+    try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://localhost:3007/me",{
+            headers: {
+                Authorization: token
+            }
+        })
+        console.log(response.data);
+        document.getElementById("information").innerHTML = response.data.username;
+        
+    } catch (error) {
+        console.error(`Error fetching user info: ${error}`);
+
+        if(error.response && error.response.status === 401){
+            localStorage.removeItem("token");
+            loadTodos();
         }
-    })
-    console.log(response.data);
-    document.getElementById("information").innerHTML = response.data.username;
-    document.getElementById("information2").innerHTML = response.data.username;
+    }
 }
 
 function toogleforms(){
@@ -117,18 +131,6 @@ function tooglelogs() {
         inpTaker.style.display = 'flex';
     }
 }
-
-// const signupForm = document.getElementById("signup-form");
-// const signinForm = document.getElementById("signin-form");
-// const userData = document.getElementById("user-data");
-// const logoutBtn = document.getElementById("logout-btn");
-// const todosContainer = document.getElementById("todos-container");
-
-// signupForm.style.display = 'none';
-// signinForm.style.display = 'none';
-// userData.style.display = 'flex';
-// logoutBtn.style.display = 'flex';
-// todosContainer.style.display = 'flex';
 
 async function logout() {
     localStorage.removeItem("token");
@@ -174,7 +176,7 @@ async function loadTodos() {
     const tasks = response.data.tasks;
     const parentDiv = document.getElementById("todos-container");
     parentDiv.innerHTML = "";
-    tasks.forEach(t => {
+
     //    <div class="task-container completed" style="flex-direction: column;">
     //         <div class="taskbox">
     //             <input type="checkbox" class="myCheckbox">
@@ -191,6 +193,8 @@ async function loadTodos() {
     //             <input type="button" class="cancel-btn" value="cancel" onclick="toogleEdit(index)">
     //         </div>
     //     </div>
+
+    tasks.forEach(t => {
         const input = document.createElement("input");
         input.setAttribute("type","checkbox");
         input.className = "myCheckbox";
@@ -301,7 +305,6 @@ async function editTodo(index) {
     try{
         const response = await axios.put("http://localhost:3007/todos",{
             "task": newTask.value,
-            // "update": new Date().toISOString(),
             "id": index},{
             headers:{
                 Authorization: localStorage.getItem("token")
